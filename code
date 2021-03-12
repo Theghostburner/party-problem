@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int B,n;
+    cin>>B>>n;
+    while(B!=0&& n!=0){
+        int* fee=new int[n];
+        int* fun=new int[n];
+        for(int i=0;i<n;i++){
+            cin>>fee[i]>>fun[i];
+        }
+        
+        
+        int** ans=new int*[n+1];
+        for(int i=0;i<n+1;i++){
+            ans[i]=new int[B+1];
+        }
+        //n+1*B+1 MATRIX
+        for(int j=0;j<B+1;j++){
+            ans[0][j]=0;
+        }
+        for(int i=0;i<n+1;i++){
+            ans[i][0]=0;
+        }	
+        
+        for(int i=1;i<n+1;i++){
+            for(int j=1;j<B+1;j++){
+                
+                ans[i][j]=ans[i-1][j];
+                if(j>=fee[n-i]){
+                    ans[i][j]=max(ans[i][j],fun[n-i]+ans[i-1][j-fee[n-i]]);
+                    
+                }
+            }
+        }
+        int tot=B;
+        for(int i=0;i<B+1;i++){
+            if(ans[n][i]==ans[n][B]){
+                tot=i;
+                break;
+            }
+            }
+        
+        
+        cout<<tot<<" "<<ans[n][B]<<endl;
+        cin>>B>>n;
+        
+    }
+    return 0;
+}
